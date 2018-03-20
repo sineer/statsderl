@@ -40,14 +40,12 @@ init(_Name, _Parent, _Opts) ->
         {ok, Header} ->
             case gen_udp:open(0, [{active, false}]) of
                 {ok, Socket} ->
-                    io:format(user, "statsd_server Got Socket! Hostname: ~p Port: ~p BaseKey: ~p",
                               [Hostname, Port, BaseKey]),
                     {ok, #state {
                         socket = Socket,
                         header = Header
                     }};
                 {error, Reason} ->
-                    io:format(user, "statsd_server ERROR! Reason: ~p", [Reason]),
                     {stop, Reason}
             end;
         {error, Reason} ->
@@ -61,7 +59,6 @@ handle_msg({cast, Packet}, #state {
         header = Header,
         socket = Socket
     } = State) ->
-    io:format(user, "statsderl_server CAST! Packet: ~p State: ~p", [Packet, State]),
     erlang:port_command(Socket, [Header, Packet]),
     {ok, State};
 handle_msg({inet_reply, _Socket, ok}, State) ->
