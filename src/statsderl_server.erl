@@ -40,7 +40,6 @@ init(_Name, _Parent, _Opts) ->
         {ok, Header} ->
             case gen_udp:open(0, [{active, false}]) of
                 {ok, Socket} ->
-                              [Hostname, Port, BaseKey]),
                     {ok, #state {
                         socket = Socket,
                         header = Header
